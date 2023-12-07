@@ -1,25 +1,22 @@
 <?php
 
-include "inc/Connection.php";
+include "../inc/Connection.php";
 
 if (isset($_POST['login'])) {
+    $conn = new Connection();
     $user = $_POST['username'];
-    $user = $_POST['password'];
-    $queryUser = "SELECT * FROM user where username:= $user";
-    $trxUser = mysqli_query($conn, $queryUser);
-    $dataUser = [];
-    while ($row = mysqli_fetch_assoc($trxUser)) {
-        $dataUser[] = $row;
-    }
-    if (count($dataUser)>0) {
-        if (password_verify($pass, $dataUser[0]['password'])) {
+    $pass = $_POST['password'];
+    $queryUser = "SELECT * FROM user where username = '$user'";
+    $trxUser = $conn->conn->prepare($queryUser);
+    $trxUser->execute();
+    if ($trxUser->rowCount() > 0) {
+        $data = $trxUser->fetchAll()[0];
+        if (password_verify($pass, $data['password'])) {
             session_start();
-            $itemSession = [
-                'uid' => $dataUser[0]['id'],
-                'nama' => $dataUser[0]['akses'],
-                'isLogin' => true,
-            ];
-            header('Location: index.php');
+            $_SESSION['uid'] = $data['id'];
+            $_SESSION['nama'] = $data['akses'];
+            $_SESSION['isLogin'] = true;
+            header("Location: http://localhost/laboran/index.php");
             // echo "Login bnerhasil";
         } else {
             echo "password yang anda masukkan tidak sesuai";
@@ -27,7 +24,7 @@ if (isset($_POST['login'])) {
     } else {
         echo "User tidak ditemukan";
     }
-}else if (isset($_POST['tambah_mahasiswa'])) {
+} else if (isset($_POST['tambah_mahasiswa'])) {
     include "Mahasiswa.php";
     $mhs = new Mahasiswa();
     // Mapping data
@@ -52,7 +49,7 @@ if (isset($_POST['login'])) {
         echo $cek;
     } else
         header("Location: http://localhost/laboran/index.php/mahasiswa");
-}else if (isset($_POST['ubah_mahasiswa']) == "mahasiswa") {
+} else if (isset($_POST['ubah_mahasiswa']) == "mahasiswa") {
     include "Mahasiswa.php";
     $mhs = new Mahasiswa();
     // Mapping data
@@ -69,7 +66,7 @@ if (isset($_POST['login'])) {
         "kelas" => $_POST['kelas'],
         "jadwal" => $_POST['jadwal'],
         "matakuliah" => $_POST['matakuliah'],
-        
+
     ];
     // Proses Tambah
     $cek = $mhs->ubah($data);

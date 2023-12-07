@@ -12,6 +12,14 @@
 
 <body>
     <header>
+        <?php
+
+        session_start();
+        if (!isset($_SESSION["isLogin"])) {
+            // echo "<script>alert('gagal')</script>";
+            header("Location: index.php");
+        }
+        ?>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
@@ -29,6 +37,9 @@
                 <li class="nav-item">
                     <a href="/laboran/index.php/laboran" class="nav-link">LABORAN</a>
                 </li>
+                <li class="nav-item">
+                    <a href="/laboran/app/logout.php" class="nav-link">LOGOUT</a>
+                </li>
             </ul>
         </nav>
     </header>
@@ -41,7 +52,8 @@
                     $me = $project_location;
                     $request = strtok($_SERVER['REQUEST_URI'], '?');
                     switch ($request) {
-                        case $me . '/':
+                        case $me . '/index.php':
+                            require "layout/home.php";
                             break;
                         case $me . '/index.php/mahasiswa':
                             require "layout/mahasiswa.php";
@@ -81,7 +93,7 @@
                             break;
                         default:
                             http_response_code(404);
-                            echo "404";
+                            echo "Not Found";
                             break;
                     }
                     ?>
