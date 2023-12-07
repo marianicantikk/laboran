@@ -4,7 +4,7 @@ include "app/Mahasiswa.php";
 $mhs = new Mahasiswa();
 $data = $mhs->tampil();
 ?>
-<div class="col-md-12">
+<div class="col-md-50">
     <div class="card">
         <div class="card-header d-flex justify-content-between">
             <h4>MAHASISWA</h4>
@@ -17,31 +17,32 @@ $data = $mhs->tampil();
                     <td>NIM</td>
                     <td>NAMA</td>
                     <td>ALAMAT</td>
-                    <td>NO TELP</td>
+                    <td>No Telepon</td>
                     <td>JK</td>
                     <td>TEMPAT LAHIR</td>
                     <td>TANGGAL LAHIR</td>
-                    <td>ID JURUSAN</td>
+                    <td>JURUSAN</td>
+                    <td>ACTION</td>
                 </tr>
                 <?php foreach ($data as $key => $item) : ?>
-                    <tr>
-                        <td><?= $key + 1; ?></td>
-                        <td><?= $item['nim']; ?></td>
-                        <td><?= $item['nama']; ?></td>
-                        <td><?= $item['alamat']; ?></td>
-                        <td><?= $item['no_telp']; ?></td>
-                        <td><?= $item['jk']; ?></td>
-                        <td><?= $item['tempat_lahir']; ?></td>
-                        <td><?= $item['tanggal_lahir']; ?></td>
-                        <td><?= $item['id_jurusan']; ?></td>
-                        <td>
-                            <a href="/laboran/index.php/mahasiswa/ubah?id=<?=$item['id']?>"
+                <tr>
+                    <td><?= $key + 1; ?></td>
+                    <td><?= $item['nim']; ?></td>
+                    <td><?= $item['nama']; ?></td>
+                    <td><?= $item['alamat']; ?></td>
+                    <td><?= $item['no_hp']; ?></td>
+                    <td><?= $item['jk']; ?></td>
+                    <td><?= $item['tempat_lahir']; ?></td>
+                    <td><?= $item['tanggal_lahir']; ?></td>
+                    <td><?= $item['nama_jurusan']; ?></td>
+                    <td>
+                        <a href="/laboran/index.php/mahasiswa/ubah?id_mahasiswa=<?= $item['id_mahasiswa'] ?>"
                             class="btn btn-warning btn-sm">EDIT</a>
-                            <a href="/laboran/app/proses.php/hapus?id=mahasiswa&id<?=$item['id']?>" 
+                        <a href="/laboran/app/proses.php?hapus=mahasiswa&id_mahasiswa=<?= $item['id_mahasiswa'] ?>"
                             class="btn btn-danger btn-sm">HAPUS</a>
 
-                        </td>
-                    </tr>
+                    </td>
+                </tr>
                 <?php endforeach; ?>
             </table>
         </div>

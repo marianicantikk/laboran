@@ -14,21 +14,22 @@ $data = $jdl->tampil();
             <table class="table table-bordered">
                 <tr>
                     <td>NO</td>
+                    <td>NAMA MAHASISWA</td>
                     <td>HARI</td>
                     <td>JAM</td>
                     <td>TANGGAL</td>
+                    <td>ACTION</td>
                 </tr>
                 <?php foreach ($data as $key => $item) : ?>
                     <tr>
                         <td><?= $key + 1; ?></td>
+                        <td><?= $item['nama']; ?></td>
                         <td><?= $item['hari']; ?></td>
                         <td><?= $item['jam']; ?></td>
                         <td><?= $item['tanggal']; ?></td>
                         <td>
-                            <a href="/laboran/index.php/jadwal/ubah?id=<?=$item['id']?>"
-                            class="btn btn-warning btn-sm">EDIT</a>
-                            <a href="/laboran/app/proses.php/hapus?id=jadwal&id<?=$item['id']?>" 
-                            class="btn btn-danger btn-sm">HAPUS</a>
+                            <a href="/laboran/index.php/jadwal/ubah?id_jadwal=<?= $item['id_jadwal'] ?>" class="btn btn-warning btn-sm">EDIT</a>
+                            <a href="/laboran/app/proses.php?hapus=jadwal&id_jadwal=<?= $item['id_jadwal'] ?>" class="btn btn-danger btn-sm">HAPUS</a>
 
                         </td>
                     </tr>

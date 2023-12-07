@@ -1,5 +1,5 @@
 <?php
-include "inc/Connection.php";
+
 class Jurusan
 {
     protected $conn;
@@ -31,17 +31,17 @@ class Jurusan
             echo $th->getMessage();
         }
     }
-        function get_id($id)
+    function get_id($id)
     {
         try {
-            $string = "SELECT * FROM jurusan WHERE id = '$id'";
+            $string = "SELECT * FROM jurusan WHERE id_jurusan = '$id'";
             $sql = $this->conn->conn->prepare($string);
             $sql->execute();
             $data = [];
-            while ($row = $sql->fetch ()) {
+            while ($row = $sql->fetch()) {
                 $data[] = $row;
             }
-            return $data[0];
+            return $data[1];
         } catch (\Throwable $th) {
             echo $th->getMessage();
         }
@@ -49,11 +49,11 @@ class Jurusan
     function ubah($data)
     {
         try {
-            $string = "SELECT * FROM jurusan set nama_jurusan=:nama_jurusan WHERE id=;id";
+            $string = "SELECT * FROM jurusan set nama_jurusan=:nama_jurusan WHERE id_jurusan";
             $sql = $this->conn->conn->prepare($string);
             $sql->execute();
             $data = [];
-            while ($row = $sql->fetch ()) {
+            while ($row = $sql->fetch()) {
                 $data[] = $row;
             }
             return true;
@@ -64,11 +64,11 @@ class Jurusan
     function hapus($id)
     {
         try {
-            $string = "DELETE FROM mahasiswa WHERE id=;id";
+            $string = "DELETE FROM jurusan WHERE id_jurusan='$id'";
             $sql = $this->conn->conn->prepare($string);
             $sql->execute();
             $data = [];
-            while ($row = $sql->fetch ()) {
+            while ($row = $sql->fetch()) {
                 $data[] = $row;
             }
             return true;

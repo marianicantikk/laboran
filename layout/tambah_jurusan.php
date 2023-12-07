@@ -6,7 +6,7 @@
         <div class="card-body">
             <form action="/laboran/app/proses.php" method="post">
                 <div class="form-group">
-                    <label for="">NAMA JURUSAN</label>
+                    <label for="">NAMA_JURUSAN</label>
                     <input type="text" class="form-control" name="nama_jurusan">
                 </div>
                 <div class="card-body">

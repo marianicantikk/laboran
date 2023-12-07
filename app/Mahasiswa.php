@@ -1,5 +1,5 @@
 <?php
-include "inc/Connection.php";
+
 class Mahasiswa
 {
     protected $conn;
@@ -8,9 +8,12 @@ class Mahasiswa
     {
         $this->conn = new Connection();
     }
-    public function tampil(): array
+
+    function tampil(): array
     {
-        $string = "SELECT * FROM mahasiswa";
+        $string = "SELECT `mahasiswa`.*, `jurusan`.nama_jurusan
+        FROM `mahasiswa` 
+            LEFT JOIN `jurusan` ON `mahasiswa`.`id_jurusan` = `jurusan`.`id_jurusan`";
         $sql = $this->conn->conn->prepare($string);
         $sql->execute();
         $data = [];
@@ -19,11 +22,12 @@ class Mahasiswa
         }
         return $data;
     }
+
     function tambah($data)
     {
         try {
-            $string = "INSERT INTO mahasiswa  (nim, nama, alamat, no_telp, jk, tempat_lahir, tanggal_lahir, id_jurusan)
-            value (:nim, :nama, :alamat, :no_telp, :jk, :tempat_lahir, :tanggal_lahir, :id_jurusan)";
+            $string = "INSERT INTO mahasiswa  (nim, nama, alamat, no_hp, jk, tempat_lahir, tanggal_lahir, id_jurusan, id_user)
+            value (:nim, :nama, :alamat, :no_hp, :jk, :tempat_lahir, :tanggal_lahir, :id_jurusan, :id_user)";
             $sql = $this->conn->conn->prepare($string);
             $sql->execute($data);
             return true;
@@ -31,14 +35,15 @@ class Mahasiswa
             echo $th->getMessage();
         }
     }
+
     function get_id($id)
     {
         try {
-            $string = "SELECT * FROM mahasiswa WHERE id = '$id'";
+            $string = "SELECT * FROM mahasiswa WHERE id_mahasiswa = '$id'";
             $sql = $this->conn->conn->prepare($string);
             $sql->execute();
             $data = [];
-            while ($row = $sql->fetch ()) {
+            while ($row = $sql->fetch()) {
                 $data[] = $row;
             }
             return $data[0];
@@ -49,12 +54,12 @@ class Mahasiswa
     function ubah($data)
     {
         try {
-            $string = "SELECT * FROM mahasiswa set nim=:nim, nama=:nama, alamat=:alamat, no_tel=:no_telp,
-            jk=:jk, tempat_lahir=:tempat_lahir, tanggal_lahir=:tanggal_lahir, id_jurusan=:id_jurusan WHERE id=;id";
+            $string = "UPDATE mahasiswa set nim= :nim, nama= :nama, alamat= :alamat, no_hp= :no_hp,
+            jk= :jk, tempat_lahir= :tempat_lahir, tanggal_lahir= :tanggal_lahir, jurusan= :jurusan, jadwal= :jadwal WHERE id_mahasiswa";
             $sql = $this->conn->conn->prepare($string);
             $sql->execute();
             $data = [];
-            while ($row = $sql->fetch ()) {
+            while ($row = $sql->fetch()) {
                 $data[] = $row;
             }
             return true;
@@ -65,13 +70,9 @@ class Mahasiswa
     function hapus($id)
     {
         try {
-            $string = "DELETE FROM mahasiswa WHERE id=;id";
+            $string = "DELETE FROM mahasiswa WHERE id_mahasiswa='$id'";
             $sql = $this->conn->conn->prepare($string);
             $sql->execute();
-            $data = [];
-            while ($row = $sql->fetch ()) {
-                $data[] = $row;
-            }
             return true;
         } catch (\Throwable $th) {
             echo $th->getMessage();

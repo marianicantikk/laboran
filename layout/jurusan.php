@@ -15,19 +15,20 @@ $data = $jrs->tampil();
                 <tr>
                     <td>NO</td>
                     <td>NAMA JURUSAN</td>
+                    <td>ACTION</td>
                 </tr>
                 <?php foreach ($data as $key => $item) : ?>
-                    <tr>
-                        <td><?= $key + 1; ?></td>
-                        <td><?= $item['nama_jurusan']; ?></td>
-                        <td>
-                            <a href="/laboran/index.php/jurusan/ubah?id=<?=$item['id']?>"
+                <tr>
+                    <td><?= $key + 1; ?></td>
+                    <td><?= $item['nama_jurusan']; ?></td>
+                    <td>
+                        <a href="/laboran/index.php/jurusan/ubah?id_jurusan=<?= $item['id_jurusan'] ?>"
                             class="btn btn-warning btn-sm">EDIT</a>
-                            <a href="/laboran/app/proses.php/hapus?id=jurusan&id<?=$item['id']?>" 
+                        <a href="/laboran/app/proses.php?hapus=jurusan&id_jurusan=<?= $item['id_jurusan'] ?>"
                             class="btn btn-danger btn-sm">HAPUS</a>
 
-                        </td>
-                    </tr>
+                    </td>
+                </tr>
                 <?php endforeach; ?>
             </table>
         </div>

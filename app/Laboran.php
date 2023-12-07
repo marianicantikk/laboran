@@ -1,5 +1,5 @@
 <?php
-include "inc/Connection.php";
+
 class Laboran
 {
     protected $conn;
@@ -10,7 +10,7 @@ class Laboran
     }
     public function tampil(): array
     {
-        $string = "SELECT * FROM laboran";
+        $string = "SELECT laboran.*, mahasiswa.nama FROM laboran LEFT JOIN mahasiswa on mahasiswa.id_mahasiswa=laboran.id_mahasiswa";
         $sql = $this->conn->conn->prepare($string);
         $sql->execute();
         $data = [];
@@ -22,8 +22,8 @@ class Laboran
     function tambah($data)
     {
         try {
-            $string = "INSERT INTO laboran (nama_pengawas)
-            value(:nama_pengawas)";
+            $string = "INSERT INTO laboran (id_mahasiswa)
+            value(:id_mahasiswa)";
             $sql = $this->conn->conn->prepare($string);
             $sql->execute($data);
             return true;
@@ -31,14 +31,14 @@ class Laboran
             echo $th->getMessage();
         }
     }
-        function get_id($id)
+    function get_id($id)
     {
         try {
-            $string = "SELECT * FROM laboran WHERE id = '$id'";
+            $string = "SELECT * FROM laboran WHERE id_laboran = '$id'";
             $sql = $this->conn->conn->prepare($string);
             $sql->execute();
             $data = [];
-            while ($row = $sql->fetch ()) {
+            while ($row = $sql->fetch()) {
                 $data[] = $row;
             }
             return $data[0];
@@ -49,11 +49,11 @@ class Laboran
     function ubah($data)
     {
         try {
-            $string = "SELECT * FROM laboran set nama_pengawas=:nama_pengawas WHERE id=;id";
+            $string = "UPDATE laboran set nama_pengawas WHERE id_laboran= :id_laboran";
             $sql = $this->conn->conn->prepare($string);
             $sql->execute();
             $data = [];
-            while ($row = $sql->fetch ()) {
+            while ($row = $sql->fetch()) {
                 $data[] = $row;
             }
             return true;
@@ -64,13 +64,9 @@ class Laboran
     function hapus($id)
     {
         try {
-            $string = "DELETE FROM laboran WHERE id=;id";
+            $string = "DELETE FROM laboran WHERE id_laboran= '$id' ";
             $sql = $this->conn->conn->prepare($string);
             $sql->execute();
-            $data = [];
-            while ($row = $sql->fetch ()) {
-                $data[] = $row;
-            }
             return true;
         } catch (\Throwable $th) {
             echo $th->getMessage();
