@@ -19,7 +19,7 @@ if (isset($_POST['login'])) {
                 'nama' => $dataUser[0]['akses'],
                 'isLogin' => true,
             ];
-            header('Location: http://localhost/laboran/index.php/user');
+            header('Location: index.php');
             // echo "Login bnerhasil";
         } else {
             echo "password yang anda masukkan tidak sesuai";
